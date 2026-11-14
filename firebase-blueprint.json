@@ -1,0 +1,73 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile and synced elevator game progress in SkyMall.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The unique Firebase Auth UID."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Player display name."
+        },
+        "coins": {
+          "type": "integer",
+          "description": "Current player coins balance."
+        },
+        "currentFloor": {
+          "type": "integer",
+          "description": "Last saved elevator floor."
+        },
+        "selectedModelId": {
+          "type": "string",
+          "description": "Identifier of the active elevator cabin model."
+        },
+        "visitedFloors": {
+          "type": "array",
+          "description": "List of floor numbers visited by the player."
+        },
+        "unlockedModelIds": {
+          "type": "array",
+          "description": "List of unlocked elevator model IDs."
+        },
+        "speedMode": {
+          "type": "string",
+          "description": "Preferred speed mode setting."
+        },
+        "cabinTheme": {
+          "type": "string",
+          "description": "Active cabin interior visual theme."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the user profile was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the profile was last updated."
+        }
+      },
+      "required": [
+        "userId",
+        "coins",
+        "currentFloor",
+        "selectedModelId",
+        "visitedFloors",
+        "unlockedModelIds",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Stores individual player game states, coins, and unlocks."
+    }
+  }
+}

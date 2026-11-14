@@ -1,0 +1,6 @@
+{
+  "name": "SkyMall Elevator",
+  "description": "Fahrstuhl-Simulator mit über 100 Etagen, Fahrstuhlmusik, Drehregler und riesigem Einkaufszentrum zum Shoppen und Entdecken.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

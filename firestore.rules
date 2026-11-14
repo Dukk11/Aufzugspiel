@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.matches('^[a-zA-Z0-9_\\-]+$') && id.size() >= 1 && id.size() <= 128;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidUserProfile(data) {
+      return data.userId is string && data.userId == request.auth.uid &&
+             (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 100)) &&
+             data.coins is int && data.coins >= 0 && data.coins <= 1000000000 &&
+             data.currentFloor is int && data.currentFloor >= 1 && data.currentFloor <= 150 &&
+             data.selectedModelId is string && data.selectedModelId.size() <= 64 &&
+             data.visitedFloors is list && data.visitedFloors.size() <= 150 &&
+             (data.visitedFloors.size() == 0 || data.visitedFloors[0] is int) &&
+             data.unlockedModelIds is list && data.unlockedModelIds.size() <= 20 &&
+             (data.unlockedModelIds.size() == 0 || data.unlockedModelIds[0] is string) &&
+             (!('speedMode' in data) || (data.speedMode is string && data.speedMode.size() <= 50)) &&
+             (!('cabinTheme' in data) || (data.cabinTheme is string && data.cabinTheme.size() <= 50)) &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    match /users/{userId} {
+      allow get, list: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+                       isValidId(userId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().keys().hasAll(['userId', 'coins', 'currentFloor', 'selectedModelId', 'visitedFloors', 'unlockedModelIds', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'displayName', 'coins', 'currentFloor', 'selectedModelId', 'visitedFloors', 'unlockedModelIds', 'speedMode', 'cabinTheme', 'createdAt', 'updatedAt']) &&
+                       isValidUserProfile(incoming());
+
+      allow update: if isOwner(userId) &&
+                       isValidId(userId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidUserProfile(incoming()) &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'coins', 'currentFloor', 'selectedModelId', 'visitedFloors', 'unlockedModelIds', 'speedMode', 'cabinTheme', 'updatedAt']);
+
+      allow delete: if isOwner(userId) && isValidId(userId);
+    }
+  }
+}

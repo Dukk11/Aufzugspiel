@@ -1,0 +1,50 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Elevator Car Outer Frame -->
+    <path
+        android:fillColor="#FFD166"
+        android:pathData="M28,26 H80 V84 H28 Z" />
+    <path
+        android:fillColor="#0D1B2A"
+        android:pathData="M31,29 H77 V81 H31 Z" />
+
+    <!-- Elevator Header Display (Etagen-Anzeige) -->
+    <path
+        android:fillColor="#1E293B"
+        android:pathData="M34,32 H74 V42 H34 Z" />
+    <!-- Up Arrow Indicator -->
+    <path
+        android:fillColor="#00F0FF"
+        android:pathData="M40,39 L43,35 L46,39 Z" />
+
+    <!-- Elevator Sliding Doors (Half-Open revealing bright mall neon lights) -->
+    <!-- Interior Mall Glow -->
+    <path
+        android:fillColor="#FF007F"
+        android:pathData="M43,45 H65 V78 H43 Z" />
+    <path
+        android:fillColor="#FFE600"
+        android:pathData="M48,50 H60 V78 H48 Z" />
+
+    <!-- Left Door -->
+    <path
+        android:fillColor="#475569"
+        android:pathData="M34,44 H48 V79 H34 Z" />
+    <!-- Right Door -->
+    <path
+        android:fillColor="#475569"
+        android:pathData="M60,44 H74 V79 H60 Z" />
+
+    <!-- Buttons Panel on Right Side -->
+    <path
+        android:fillColor="#00F0FF"
+        android:pathData="M78,48 H80 V50 H78 Z M78,53 H80 V55 H78 Z M78,58 H80 V60 H78 Z" />
+
+    <!-- Floor Mat -->
+    <path
+        android:fillColor="#FFD166"
+        android:pathData="M30,81 H78 V83 H30 Z" />
+</vector>
